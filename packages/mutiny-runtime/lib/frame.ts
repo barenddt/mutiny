@@ -1,4 +1,4 @@
-import { Frame, FrameInfo, LogLevel } from "./types";
+import { Frame, FrameInfo, LogLevel } from "./types/core";
 import { formatConsoleMessage, getFrameInfo } from "./utils";
 
 import CDP from "chrome-remote-interface";

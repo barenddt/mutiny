@@ -1,0 +1,4 @@
+{
+  "appEntry": "app/index.ts",
+  "serverEntry": "server/index.ts"
+}
