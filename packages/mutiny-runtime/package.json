@@ -1,0 +1,17 @@
+{
+ "name": "@mutiny/runtime",
+ "version": "1.0.0",
+ "main": "index.js",
+ "license": "MIT",
+ "devDependencies": {
+  "@mutiny/tsconfig": "*",
+  "@types/chrome-remote-interface": "^0.31.4",
+  "@types/fs-extra": "^9.0.13",
+  "@types/node": "^18.8.0",
+  "axios": "^0.27.2",
+  "chalk": "^5.0.1",
+  "chrome-remote-interface": "^0.31.3",
+  "fs-extra": "^10.1.0",
+  "node-watch": "^0.7.3"
+ }
+}
