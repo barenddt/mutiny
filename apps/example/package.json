@@ -5,10 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "mutiny dev",
-    "build": "rollup -c",
-    "watch": "rollup -c -w",
     "start": "mutiny start",
-    "mutiny": "mutiny"
+    "build": "mutiny build"
   },
   "devDependencies": {
     "@mutiny/runtime": "*",

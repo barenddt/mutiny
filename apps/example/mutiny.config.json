@@ -1,1 +1,8 @@
-{}
+{
+    "app": {
+        "entry": "src/app/index.ts"
+    },
+    "server": {
+        "entry": "src/server/index.ts"
+    }
+}

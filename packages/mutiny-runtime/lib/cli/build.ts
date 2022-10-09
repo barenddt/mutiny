@@ -1,19 +1,48 @@
-import fs from "fs-extra"
-import path from "path"
-import { rollup } from "rollup"
+import { build as tsupBuild } from "tsup"
 
-export async function build() {
-  fs.removeSync(path.join(process.cwd(), ".mutiny"))
+import {
+  AppConfig,
+  MUTINY_BUILD_DIR,
+  ServerConfig,
+  loadMutinyConfig,
+} from "../utils"
 
-  if (!fs.existsSync(path.join(process.cwd(), "rollup.config.js"))) {
-    throw new Error("Rollup config file not found")
+export interface BuildOptions {
+  app?: boolean
+  server?: boolean
+}
+
+export async function build(
+  options: BuildOptions = { app: true, server: true }
+) {
+  const { app, server } = options
+  const mConfig = loadMutinyConfig()
+
+  if (app) {
+    await buildApp(mConfig.app)
   }
 
-  const config = require(path.join(process.cwd(), "rollup.config.js"))
+  if (server) {
+    await buildServer(mConfig.server)
+  }
 
-  const bundle = await rollup(config)
+  console.log("Build complete!")
+}
 
-  await bundle.write(config.output)
+export function buildApp(config: AppConfig) {
+  return tsupBuild({
+    entry: [config.entry],
+    outDir: MUTINY_BUILD_DIR + "/app",
+    format: ["cjs"],
+    clean: true,
+  })
+}
 
-  console.log("Build successful")
+export function buildServer(config: ServerConfig) {
+  return tsupBuild({
+    entry: [config.entry],
+    outDir: MUTINY_BUILD_DIR + "/server",
+    format: ["cjs"],
+    clean: true,
+  })
 }
