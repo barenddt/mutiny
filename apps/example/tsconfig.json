@@ -1,5 +1,10 @@
 {
   "extends": "@mutiny/tsconfig/base.json",
-  "include": ["server/**/*.ts", "app/**/*.ts"],
+  "include": ["src/server/**/*.ts", "src/app/**/*.ts"],
+  "compilerOptions": {
+    "outDir": ".mutiny",
+    "declaration": false,
+    "declarationMap": false
+  },
   "exclude": ["node_modules", "dist"]
 }

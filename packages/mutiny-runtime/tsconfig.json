@@ -1,8 +1,0 @@
-{
-  "extends": "@mutiny/tsconfig/base.json",
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "ES2022"
-  },
-  "include": ["lib/**/*.ts"]
-}

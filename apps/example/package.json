@@ -4,10 +4,20 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "mutiny start"
+    "dev": "mutiny dev",
+    "build": "rollup -c",
+    "watch": "rollup -c -w",
+    "start": "mutiny start",
+    "mutiny": "mutiny"
   },
   "devDependencies": {
+    "@mutiny/runtime": "*",
     "@mutiny/tsconfig": "*",
-    "@mutiny/runtime": "*"
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^14.1.0",
+    "@rollup/plugin-replace": "^4.0.0",
+    "@rollup/plugin-typescript": "^8.5.0",
+    "rollup": "^2.79.1"
   }
 }

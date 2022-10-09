@@ -15,11 +15,11 @@ export enum Frame {
 }
 
 export interface FrameInfo {
-  description: string;
-  devtoolsFrontendUrl: string;
-  id: string;
-  title: Frame;
-  type: string;
-  url: string;
-  webSocketDebuggerUrl: string;
+  description: string
+  devtoolsFrontendUrl: string
+  id: string
+  title: Frame
+  type: string
+  url: string
+  webSocketDebuggerUrl: string
 }

@@ -1,44 +1,53 @@
-import { Frame } from "./types/core";
-import { FrameClient } from "./frame";
-import chalk from "chalk";
-import { loadScript } from "./utils";
-import path from "path";
-import watch from "node-watch";
+import { Frame } from "./types/core"
+import { FrameClient } from "./frame"
+import chalk from "chalk"
+import fs from "fs-extra"
+import { default as nodeWatch } from "node-watch"
+import path from "path"
 
-export async function startService() {
-  const frame = new FrameClient(Frame.SP);
+export type ServiceConfig = {
+  watch: boolean
+}
+
+export async function startService(config: ServiceConfig) {
+  const { watch } = config
+
+  const frame = new FrameClient(Frame.SP)
 
   frame.on("connected", async (client: FrameClient) => {
-    const script = loadScript("../frontend/dist/index.js");
+    const appEntry = path.join(process.cwd(), ".mutiny/app/index.js")
+    const script = fs.readFileSync(appEntry, "utf-8")
 
-    await client.injectScript(script);
+    await client.injectScript(script)
 
     client.CDP.on("Page.loadEventFired", async () => {
-      await client.injectScript(script);
-    });
+      await client.injectScript(script)
+    })
 
-    watch(
-      path.join(__dirname, "../frontend/dist"),
-      { recursive: true },
-      async () => {
-        console.log(chalk.magentaBright("Hot reloading..."));
-        const script = loadScript("../frontend/dist/index.js");
-        await client.injectScript(script);
-      }
-    );
-  });
+    if (watch) {
+      nodeWatch(
+        path.join(process.cwd(), ".mutiny/app"),
+        { recursive: true },
+        async () => {
+          console.log(chalk.magentaBright("Hot reloading..."))
+          const script = fs.readFileSync(appEntry, "utf-8")
+          await client.injectScript(script)
+        }
+      )
+    }
+  })
 
   frame.on("disconnected", (client) => {
-    client.CDP.close();
-  });
+    client.CDP.close()
+  })
 
   process.on("SIGINT", () => {
-    console.log("Closing CDP...");
+    console.log("Closing CDP...")
 
     if (frame.CDP) {
-      frame.CDP.close();
+      frame.CDP.close()
     }
 
-    process.exit();
-  });
+    process.exit()
+  })
 }
