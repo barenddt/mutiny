@@ -1,9 +1,11 @@
-import { Frame, FrameInfo, LogLevel } from "./types/core"
-import { formatConsoleMessage, getFrameInfo } from "./utils"
-
 import CDP from "chrome-remote-interface"
 import { EventEmitter } from "node:events"
-import chalk from "chalk"
+
+import { Frame, FrameInfo, LogLevel } from "./types/core"
+import { formatConsoleMessage, getFrameInfo } from "./utils"
+import { logger } from "./utils/logger"
+
+const log = logger({ scope: "service:frame", color: "magenta" })
 
 export interface FrameClientOptions {
   pollInterval?: number
@@ -56,12 +58,12 @@ export class FrameClient extends EventEmitter {
         if (this.isConnected) return
         this.frameInfo = frameInfo
         await this.initCDPClient(frameInfo)
-        console.log(chalk.bold.greenBright(`${this.frame} frame connected`))
+        log(`${this.frame} frame connected`)
         this.isConnected = true
         this.emit("connected", this)
       } catch (e) {
         if (!this.isConnected) return
-        console.log(chalk.bold.redBright(`${this.frame} frame disconnected`))
+        log(`${this.frame} frame disconnected`)
         this.isConnected = false
         this.emit("disconnected", this)
       }
@@ -107,9 +109,7 @@ export class FrameClient extends EventEmitter {
       expression: script,
       silent: silent || true,
     })
-    console.log(
-      chalk.bold.greenBright(`Injected script into ${this.frame} frame`)
-    )
+    log(`injected script into ${this.frame} frame`)
   }
 
   public async addStyleSheet(css: string): Promise<string> {

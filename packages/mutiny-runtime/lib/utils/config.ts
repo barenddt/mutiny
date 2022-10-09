@@ -6,10 +6,12 @@ import { MUTINY_CONFIG_FILE } from "./constants"
 
 export interface AppConfig {
   entry: string
+  watchDir?: string
 }
 
 export interface ServerConfig {
   entry: string
+  watchDir?: string
 }
 
 export interface MutinyConfig {
