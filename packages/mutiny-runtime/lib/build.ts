@@ -1,4 +1,4 @@
-import { AppConfig, MUTINY_BUILD_DIR } from "./utils"
+import { AppConfig, MUTINY_BUILD_DIR, loadDotEnv } from "./utils"
 import { Options, build as tsupBuild } from "tsup"
 
 import globals from "esbuild-plugin-globals"
@@ -6,22 +6,20 @@ import { logger } from "./utils/logger"
 import { default as nodeWatch } from "node-watch"
 import path from "path"
 
+const log = logger({ scope: "app:build", color: "green" })
+
 export type Opts = {
   watch?: boolean
 }
 
-// const serverConfig: Options = {
-//   entry: [server.entry],
-//   outDir: MUTINY_BUILD_DIR + "/server",
-//   format: ["cjs"],
-//   clean: true,
-//   silent: true,
-// }
-
 export async function buildApp(config: AppConfig, opts: Opts) {
-  const log = logger({ scope: "app:build", color: "green" })
-
   const time = Date.now()
+
+  const env = loadDotEnv()
+
+  if (env) {
+    log("loaded .env file")
+  }
 
   const tsupConf: Options = {
     entry: [config.entry],
@@ -38,6 +36,7 @@ export async function buildApp(config: AppConfig, opts: Opts) {
         "react-dom": "SP_REACTDOM",
       }),
     ],
+    env: env ?? {},
   }
 
   log(`building entry ${config.entry}`)
@@ -63,20 +62,3 @@ export async function buildApp(config: AppConfig, opts: Opts) {
     log("ready for changes...")
   }
 }
-
-// export async function buildServer(
-//   buildOpts: BuildOptions,
-//   tsupConfig?: Options
-// ) {
-//   console.log(chalk.green("Building server..."))
-
-//   await tsupBuild({
-//     entry: [server.entry],
-//     outDir: MUTINY_BUILD_DIR + "/server",
-//     format: ["cjs"],
-//     clean: true,
-//     ...tsupConfig,
-//   })
-
-//   console.log(chalk.green("Built server"))
-// }

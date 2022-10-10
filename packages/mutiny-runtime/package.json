@@ -13,6 +13,7 @@
     "@types/chrome-remote-interface": "^0.31.4",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^18.8.0",
+    "dotenv": "^16.0.3",
     "esbuild-plugin-globals": "^0.1.1",
     "esbuild-plugin-replace": "^1.2.0",
     "tsup": "^6.2.3"

@@ -1,5 +1,6 @@
 import { MUTINY_CONFIG_FILE } from "./constants"
 import fs from "fs-extra"
+import { parse } from "dotenv"
 import path from "path"
 import { z } from "zod"
 
@@ -57,4 +58,16 @@ export function loadMutinyConfig(): MutinyConfig {
   }
 
   return result.data
+}
+
+export function loadDotEnv(): Record<string, string> | null {
+  const envPath = path.resolve(process.cwd(), ".env")
+
+  if (!fs.existsSync(envPath)) {
+    return null
+  }
+
+  const env = parse(fs.readFileSync(envPath, "utf-8"))
+
+  return env
 }

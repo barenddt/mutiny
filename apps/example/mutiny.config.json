@@ -1,10 +1,10 @@
 {
   "app": {
-    "entry": "src/app/index.tsx",
-    "watchDir": "src/app"
+    "entry": "app/index.tsx",
+    "watchDir": "app"
   },
   "server": {
-    "entry": "src/server/index.ts",
-    "watchDir": "src/server"
+    "entry": "server/index.ts",
+    "watchDir": "server"
   }
 }
