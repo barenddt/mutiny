@@ -60,7 +60,7 @@ export async function buildApp(config: AppConfig, opts: Opts) {
       }
     )
 
-    log("watching for changes...")
+    log("ready for changes...")
   }
 }
 

@@ -27,8 +27,6 @@ export async function startService(config: ServiceConfig) {
   log("service started. waiting for frame to connect...")
 
   frame.on("connected", async (client: FrameClient) => {
-    log(`injected mutiny into frame`)
-
     const appEntry = path.join(
       process.cwd(),
       MUTINY_BUILD_DIR,

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "mutiny dev",
     "start": "mutiny start",
-    "mutiny": "mutiny build"
+    "build": "mutiny build"
   },
   "devDependencies": {
     "@mutiny/runtime": "*",
