@@ -1,9 +1,8 @@
+import { Frame, FrameInfo, LogLevel } from "./types/core"
+import { formatConsoleMessage, getFrameInfo, logger } from "./utils"
+
 import CDP from "chrome-remote-interface"
 import { EventEmitter } from "node:events"
-
-import { Frame, FrameInfo, LogLevel } from "./types/core"
-import { formatConsoleMessage, getFrameInfo } from "./utils"
-import { logger } from "./utils/logger"
 
 const log = logger({ scope: "service:frame", color: "magenta" })
 
@@ -105,11 +104,12 @@ export class FrameClient extends EventEmitter {
   }
 
   public async injectScript(script: string, silent?: boolean): Promise<void> {
+    const time = Date.now()
     await this.CDP.Runtime.evaluate({
       expression: script,
       silent: silent || true,
     })
-    log(`injected script into ${this.frame} frame`)
+    log(`inject to ${this.frame} frame success in ${Date.now() - time}ms`)
   }
 
   public async addStyleSheet(css: string): Promise<string> {
@@ -138,5 +138,14 @@ export class FrameClient extends EventEmitter {
       styleSheetId,
       text: "",
     })
+  }
+
+  public async hardReload(): Promise<void> {
+    if (!this.options?.agents?.enablePage) {
+      throw new Error("Page agent is not enabled")
+    }
+
+    await this.CDP.Page.reload({ ignoreCache: true })
+    log(`sent hard reload cmd to ${this.frame} frame`)
   }
 }

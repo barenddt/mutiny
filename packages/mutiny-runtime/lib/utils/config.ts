@@ -1,9 +1,7 @@
-import path from "path"
-
-import fs from "fs-extra"
-import { z } from "zod"
-
 import { MUTINY_CONFIG_FILE } from "./constants"
+import fs from "fs-extra"
+import path from "path"
+import { z } from "zod"
 
 export interface AppConfig {
   entry: string
@@ -17,7 +15,7 @@ export interface ServerConfig {
 
 export interface MutinyConfig {
   app: AppConfig
-  server: ServerConfig
+  server?: ServerConfig
 }
 
 export const MutinyConfigSchema = z.object({
@@ -30,15 +28,17 @@ export const MutinyConfigSchema = z.object({
     },
     { required_error: "app is required" }
   ),
-  server: z.object(
-    {
-      entry: z.string({ required_error: "server.entry is required" }),
-      watchDir: z
-        .string({ invalid_type_error: "server.watchDir must be a string" })
-        .optional(),
-    },
-    { required_error: "server is required" }
-  ),
+  server: z
+    .object(
+      {
+        entry: z.string({ required_error: "server.entry is required" }),
+        watchDir: z
+          .string({ invalid_type_error: "server.watchDir must be a string" })
+          .optional(),
+      },
+      { required_error: "server is required" }
+    )
+    .optional(),
 })
 
 export function loadMutinyConfig(): MutinyConfig {

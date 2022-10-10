@@ -1,8 +1,9 @@
-import { Command } from "commander"
+#!/usr/bin/env node
 
-import { startService } from "../service"
-import { loadMutinyConfig } from "../utils"
+import { Command } from "commander"
 import { buildApp } from "./build"
+import { loadMutinyConfig } from "./utils"
+import { startService } from "./service"
 
 export const program = new Command()
 

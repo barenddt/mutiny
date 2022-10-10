@@ -1,13 +1,14 @@
+import { MUTINY_BUILD_DIR, loadMutinyConfig, logger } from "./utils"
+
+import { Frame } from "./types/core"
+import { FrameClient } from "./frame"
+import { buildApp } from "./build"
+import fs from "fs-extra"
+import keypress from "keypress"
+import { default as nodeWatch } from "node-watch"
 import path from "path"
 
-import fs from "fs-extra"
-import { default as nodeWatch } from "node-watch"
-
-import { buildApp } from "./cli/build"
-import { FrameClient } from "./frame"
-import { Frame } from "./types/core"
-import { MUTINY_BUILD_DIR, loadMutinyConfig } from "./utils"
-import { logger } from "./utils/logger"
+keypress(process.stdin)
 
 const log = logger({ scope: "service", color: "magenta" })
 
@@ -26,11 +27,13 @@ export async function startService(config: ServiceConfig) {
   log("service started. waiting for frame to connect...")
 
   frame.on("connected", async (client: FrameClient) => {
+    log(`injected mutiny into frame`)
+
     const appEntry = path.join(
       process.cwd(),
       MUTINY_BUILD_DIR,
       "app",
-      "index.js"
+      "index.global.js"
     )
 
     const script = fs.readFileSync(appEntry, "utf-8")
@@ -46,10 +49,9 @@ export async function startService(config: ServiceConfig) {
         path.join(process.cwd(), ".mutiny/app"),
         { recursive: true },
         async () => {
-          log("change detected, reinjecting script...")
+          log("change detected, hot-reloading app...")
           const script = fs.readFileSync(appEntry, "utf-8")
           await client.injectScript(script)
-          log("script reinjected")
         }
       )
     }
@@ -69,4 +71,17 @@ export async function startService(config: ServiceConfig) {
 
     process.exit()
   })
+
+  process.stdin.on("keypress", function (_ch, key) {
+    if (key && key.ctrl && key.name == "r") {
+      frame.hardReload()
+    }
+
+    if (key && key.ctrl && key.name == "c") {
+      process.emit("SIGINT")
+    }
+  })
+
+  process.stdin.setRawMode(true)
+  process.stdin.resume()
 }

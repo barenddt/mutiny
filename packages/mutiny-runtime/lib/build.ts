@@ -1,12 +1,12 @@
-import path from "path"
-
-import { default as nodeWatch } from "node-watch"
+import { AppConfig, MUTINY_BUILD_DIR } from "./utils"
 import { Options, build as tsupBuild } from "tsup"
 
-import { AppConfig, MUTINY_BUILD_DIR } from "../utils"
-import { logger } from "../utils/logger"
+import globals from "esbuild-plugin-globals"
+import { logger } from "./utils/logger"
+import { default as nodeWatch } from "node-watch"
+import path from "path"
 
-export type BuildOptions = {
+export type Opts = {
   watch?: boolean
 }
 
@@ -18,7 +18,7 @@ export type BuildOptions = {
 //   silent: true,
 // }
 
-export async function buildApp(config: AppConfig, buildOpts: BuildOptions) {
+export async function buildApp(config: AppConfig, opts: Opts) {
   const log = logger({ scope: "app:build", color: "green" })
 
   const time = Date.now()
@@ -26,16 +26,25 @@ export async function buildApp(config: AppConfig, buildOpts: BuildOptions) {
   const tsupConf: Options = {
     entry: [config.entry],
     outDir: MUTINY_BUILD_DIR + "/app",
-    format: ["cjs"],
+    format: ["iife"],
     clean: true,
     silent: true,
+    replaceNodeEnv: true,
+    minify: true,
+    external: ["react", "react-dom"],
+    plugins: [
+      globals({
+        react: "SP_REACT",
+        "react-dom": "SP_REACTDOM",
+      }),
+    ],
   }
 
   log(`building entry ${config.entry}`)
   await tsupBuild(tsupConf)
   log(`build success in ${Date.now() - time}ms`)
 
-  if (buildOpts.watch) {
+  if (opts.watch) {
     if (!config.watchDir) {
       throw new Error("No watchDir specified in mutiny.config.json")
     }
