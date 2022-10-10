@@ -1,0 +1,29 @@
+{
+  "name": "@mutiny/react",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "tsup --dts"
+  },
+  "devDependencies": {
+    "@mutiny/tsconfig": "*",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "@types/react-reconciler": "^0.28.0",
+    "esbuild-plugin-globals": "^0.1.1",
+    "tsup": "^6.2.3"
+  },
+  "dependencies": {
+    "is-proxy": "^1.0.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.4.0",
+    "react-reconciler": "^0.29.0"
+  }
+}
