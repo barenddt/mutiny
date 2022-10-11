@@ -27,10 +27,5 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "packageManager": "yarn@1.22.19",
-  "husky": {
-    "hooks": {
-      "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
-    }
-  }
+  "packageManager": "yarn@1.22.19"
 }
