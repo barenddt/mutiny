@@ -19,8 +19,8 @@
     "@changesets/cli": "^2.25.0",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@mutiny/eslint-config": "*",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint-config-custom": "*",
     "prettier": "latest",
     "turbo": "latest"
   },

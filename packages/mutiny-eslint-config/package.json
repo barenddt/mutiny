@@ -1,15 +1,18 @@
 {
-  "name": "eslint-config-custom",
+  "name": "@mutiny/eslint-config",
   "version": "0.1.0",
   "main": "index.js",
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.40.0",
+    "@typescript-eslint/parser": "^5.40.0",
     "eslint": "^7.23.0",
-    "eslint-config-next": "^12.0.8",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-react": "7.31.8",
-    "eslint-config-turbo": "latest"
+    "eslint-config-react": "^1.1.7",
+    "eslint-config-turbo": "latest",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "7.31.8"
   },
   "devDependencies": {
     "typescript": "^4.7.4"
