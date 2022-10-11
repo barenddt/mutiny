@@ -63,7 +63,9 @@ export async function startService(config: ServiceConfig) {
 
   process.stdin.on("keypress", function (_ch, key) {
     if (key && key.ctrl && key.name == "r") {
-      frame.hardReload()
+      if (frame.CDP) {
+        frame.hardReload()
+      }
     }
 
     if (key && key.ctrl && key.name == "c") {

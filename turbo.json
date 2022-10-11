@@ -4,16 +4,13 @@
     "start": {},
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**"],
+      "outputs": ["dist/**", ".mutiny/**"],
       "cache": true
     },
     "lint": {
       "outputs": []
     },
     "dev": {
-      "cache": false
-    },
-    "watch": {
       "cache": false
     }
   }
