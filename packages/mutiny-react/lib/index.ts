@@ -36,15 +36,12 @@ export async function createRoute(route: Route) {
 }
 
 export async function getRootNode(): Promise<Fiber> {
-  while (
-    !(document.getElementById("root") as any)._reactRootContainer?._internalRoot
-      ?.current
-  ) {
+  while (!(document.getElementById("root") as any)._reactRootContainer?._internalRoot?.current) {
     await new Promise((resolve) => setTimeout(resolve, 100))
   }
 
-  const rootNode = (document.getElementById("root") as any)._reactRootContainer
-    ._internalRoot.current as Fiber
+  const rootNode = (document.getElementById("root") as any)._reactRootContainer._internalRoot
+    .current as Fiber
 
   return rootNode
 }

@@ -48,16 +48,12 @@ export async function buildApp(config: AppConfig, opts: Opts) {
       throw new Error("No watchDir specified in mutiny.config.json")
     }
 
-    nodeWatch(
-      path.join(process.cwd(), config.watchDir),
-      { recursive: true },
-      async () => {
-        const time = Date.now()
-        log(`change detected, rebuilding entry ${config.entry}...`)
-        await tsupBuild(tsupConf)
-        log("build success in " + (Date.now() - time) + "ms")
-      }
-    )
+    nodeWatch(path.join(process.cwd(), config.watchDir), { recursive: true }, async () => {
+      const time = Date.now()
+      log(`change detected, rebuilding entry ${config.entry}...`)
+      await tsupBuild(tsupConf)
+      log("build success in " + (Date.now() - time) + "ms")
+    })
 
     log("ready for changes...")
   }

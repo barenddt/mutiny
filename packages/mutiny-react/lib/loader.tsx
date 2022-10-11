@@ -14,8 +14,7 @@ export class Loader {
     this.root = root
     this.patcher = new Patcher()
     this.router = new Router(root)
-    this.findNode = (filter: (fibre: Fiber) => boolean) =>
-      findNode(root, filter)
+    this.findNode = (filter: (fibre: Fiber) => boolean) => findNode(root, filter)
   }
 
   mount() {

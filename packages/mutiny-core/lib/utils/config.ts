@@ -23,9 +23,7 @@ export const MutinyConfigSchema = z.object({
   app: z.object(
     {
       entry: z.string({ required_error: "app.entry is required" }),
-      watchDir: z
-        .string({ invalid_type_error: "app.watchDir must be a string" })
-        .optional(),
+      watchDir: z.string({ invalid_type_error: "app.watchDir must be a string" }).optional(),
     },
     { required_error: "app is required" }
   ),
@@ -33,9 +31,7 @@ export const MutinyConfigSchema = z.object({
     .object(
       {
         entry: z.string({ required_error: "server.entry is required" }),
-        watchDir: z
-          .string({ invalid_type_error: "server.watchDir must be a string" })
-          .optional(),
+        watchDir: z.string({ invalid_type_error: "server.watchDir must be a string" }).optional(),
       },
       { required_error: "server is required" }
     )

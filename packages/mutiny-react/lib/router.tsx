@@ -29,16 +29,11 @@ export class Router {
 
     this.patcher = new Patcher()
 
-    this.routerNode = findNode(
-      this.root,
-      (f: Fiber) => f.type?.computeRootMatch
-    )
+    this.routerNode = findNode(this.root, (f: Fiber) => f.type?.computeRootMatch)
 
     const childNode = await findNodeAsync(
       this.routerNode!,
-      (f: Fiber) =>
-        f.memoizedProps?.children?.length ===
-        24 + (this.patcher?.patches.size ?? 0)
+      (f: Fiber) => f.memoizedProps?.children?.length === 24 + (this.patcher?.patches.size ?? 0)
     )
 
     if (childNode) {
@@ -49,9 +44,7 @@ export class Router {
         handler: {
           get: (target, prop) => {
             target = [
-              ...this.routes.map((route) => (
-                <Route path={route.path}>{route.render}</Route>
-              )),
+              ...this.routes.map((route) => <Route path={route.path}>{route.render}</Route>),
               ...target,
             ]
 

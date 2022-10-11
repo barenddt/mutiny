@@ -18,8 +18,7 @@ if (window.webpackJsonp && !window.webpackJsonp.deckyShimmed) {
   const wpRequire = window.webpackJsonp.push([
     [],
     {
-      get_require: (mod: any, _exports: any, wpRequire: any) =>
-        (mod.exports = wpRequire),
+      get_require: (mod: any, _exports: any, wpRequire: any) => (mod.exports = wpRequire),
     },
     [["get_require"]],
   ])
@@ -84,8 +83,7 @@ export const findAllModules = (filter: FilterFn) => {
 export const CommonUIModule = allModules.find((m: Module) => {
   if (typeof m !== "object") return false
   for (let prop in m) {
-    if (m[prop]?.contextType?._currentValue && Object.keys(m).length > 60)
-      return true
+    if (m[prop]?.contextType?._currentValue && Object.keys(m).length > 60) return true
   }
   return false
 })
@@ -95,9 +93,7 @@ export const IconsModule = findModule((m: Module) => {
   for (let prop in m) {
     if (
       m[prop]?.toString &&
-      /Spinner\)}\),.\.createElement\(\"path\",{d:\"M18 /.test(
-        m[prop].toString()
-      )
+      /Spinner\)}\),.\.createElement\(\"path\",{d:\"M18 /.test(m[prop].toString())
     )
       return true
   }

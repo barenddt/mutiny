@@ -40,10 +40,7 @@ export class FrameClient extends EventEmitter {
   public CDP!: CDP.Client
   public frameInfo!: FrameInfo
 
-  constructor(
-    private frame: Frame,
-    private options: FrameClientOptions = defaultOptions
-  ) {
+  constructor(private frame: Frame, private options: FrameClientOptions = defaultOptions) {
     super()
     this.start()
   }
@@ -82,24 +79,14 @@ export class FrameClient extends EventEmitter {
     })
 
     if (this.options?.logging?.enable) {
-      this.CDP["Console.messageAdded"](
-        formatConsoleMessage(this.options?.logging)
-      )
+      this.CDP["Console.messageAdded"](formatConsoleMessage(this.options?.logging))
     }
 
     await Promise.all([
-      this.options?.agents?.enableDOM
-        ? this.CDP.DOM.enable()
-        : Promise.resolve(),
-      this.options?.agents?.enableCSS
-        ? this.CDP.CSS.enable()
-        : Promise.resolve(),
-      this.options?.agents?.enableConsole
-        ? this.CDP.Console.enable()
-        : Promise.resolve(),
-      this.options?.agents?.enablePage
-        ? this.CDP.Page.enable()
-        : Promise.resolve(),
+      this.options?.agents?.enableDOM ? this.CDP.DOM.enable() : Promise.resolve(),
+      this.options?.agents?.enableCSS ? this.CDP.CSS.enable() : Promise.resolve(),
+      this.options?.agents?.enableConsole ? this.CDP.Console.enable() : Promise.resolve(),
+      this.options?.agents?.enablePage ? this.CDP.Page.enable() : Promise.resolve(),
     ])
   }
 

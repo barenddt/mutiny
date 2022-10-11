@@ -26,10 +26,7 @@ const findFiberNodeById = (fibre: Fiber, id: string): Fiber | null => {
   return null
 }
 
-const findFiberNodeByClass = (
-  fibre: Fiber,
-  className: string
-): Fiber | null => {
+const findFiberNodeByClass = (fibre: Fiber, className: string): Fiber | null => {
   if (fibre.stateNode?.className === className) {
     return fibre
   }
@@ -73,10 +70,7 @@ const findStateNode = (fibre: Fiber): Fiber | null => {
   return null
 }
 
-const findNode = (
-  fibre: Fiber,
-  filter: (fibre: Fiber) => boolean
-): Fiber | null => {
+const findNode = (fibre: Fiber, filter: (fibre: Fiber) => boolean): Fiber | null => {
   if (filter(fibre)) {
     return fibre
   }
@@ -118,10 +112,7 @@ const findNodeAsync = async (
   return null
 }
 
-const findParentNode = (
-  fibre: Fiber,
-  filter: (fibre: Fiber) => boolean
-): Fiber => {
+const findParentNode = (fibre: Fiber, filter: (fibre: Fiber) => boolean): Fiber => {
   let parent = fibre.return
 
   while (parent) {
@@ -135,10 +126,7 @@ const findParentNode = (
   throw new Error("Could not find parent node")
 }
 
-const waitForNode = (
-  fibre: Fiber,
-  filter: (fibre: Fiber) => boolean
-): Promise<Fiber> => {
+const waitForNode = (fibre: Fiber, filter: (fibre: Fiber) => boolean): Promise<Fiber> => {
   return new Promise((resolve) => {
     const node = findNode(fibre, filter)
 

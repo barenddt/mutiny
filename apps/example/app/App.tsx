@@ -9,10 +9,7 @@ const App = () => (
     }}
   >
     <h2>{process.env.TEST}</h2>
-    <img
-      src="https://media.tenor.com/VFFJ8Ei3C2IAAAAM/rickroll-rick.gif"
-      alt="Rick Astley"
-    />
+    <img src="https://media.tenor.com/VFFJ8Ei3C2IAAAAM/rickroll-rick.gif" alt="Rick Astley" />
   </div>
 )
 

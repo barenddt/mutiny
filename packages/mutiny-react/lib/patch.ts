@@ -29,10 +29,7 @@ export class Patch {
 
     this.original = this.target[this.property]
 
-    this.target[this.property] = new Proxy(
-      this.target[this.property],
-      this.handler
-    )
+    this.target[this.property] = new Proxy(this.target[this.property], this.handler)
 
     console.debug(`Applied patch ${this.name}`)
 

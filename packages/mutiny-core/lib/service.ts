@@ -27,12 +27,7 @@ export async function startService(config: ServiceConfig) {
   log("service started. waiting for frame to connect...")
 
   frame.on("connected", async (client: FrameClient) => {
-    const appEntry = path.join(
-      process.cwd(),
-      MUTINY_BUILD_DIR,
-      "app",
-      "index.global.js"
-    )
+    const appEntry = path.join(process.cwd(), MUTINY_BUILD_DIR, "app", "index.global.js")
 
     const script = fs.readFileSync(appEntry, "utf-8")
 
@@ -43,15 +38,11 @@ export async function startService(config: ServiceConfig) {
     })
 
     if (watch) {
-      nodeWatch(
-        path.join(process.cwd(), ".mutiny/app"),
-        { recursive: true },
-        async () => {
-          log("change detected, hot-reloading app...")
-          const script = fs.readFileSync(appEntry, "utf-8")
-          await client.injectScript(script)
-        }
-      )
+      nodeWatch(path.join(process.cwd(), ".mutiny/app"), { recursive: true }, async () => {
+        log("change detected, hot-reloading app...")
+        const script = fs.readFileSync(appEntry, "utf-8")
+        await client.injectScript(script)
+      })
     }
   })
 
