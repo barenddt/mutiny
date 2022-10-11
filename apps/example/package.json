@@ -9,7 +9,7 @@
     "build": "mutiny build"
   },
   "devDependencies": {
-    "@mutiny/runtime": "*",
+    "@mutiny/core": "*",
     "@mutiny/tsconfig": "*"
   },
   "dependencies": {
