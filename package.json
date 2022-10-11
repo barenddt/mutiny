@@ -12,6 +12,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "start": "turbo run start",
+    "cs": "changeset",
     "cs:version": "changeset version"
   },
   "devDependencies": {
