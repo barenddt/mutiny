@@ -9,7 +9,8 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "tsup --dts"
+    "build": "tsup --dts",
+    "lint": "TIMING=1 eslint --ext .ts,.tsx lib"
   },
   "devDependencies": {
     "@mutiny/tsconfig": "*",
