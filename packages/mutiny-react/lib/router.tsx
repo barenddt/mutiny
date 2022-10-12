@@ -31,10 +31,12 @@ export class Router {
 
     this.routerNode = findNode(this.root, (f: Fiber) => f.type?.computeRootMatch)
 
-    const childNode = await findNodeAsync(
-      this.routerNode!,
-      (f: Fiber) => f.memoizedProps?.children?.length === 24 + (this.patcher?.patches.size ?? 0)
-    )
+    const childNode = this.routerNode
+      ? await findNodeAsync(
+          this.routerNode,
+          (f: Fiber) => f.memoizedProps?.children?.length === 24 + (this.patcher?.patches.size ?? 0)
+        )
+      : null
 
     if (childNode) {
       const routePatch = new Patch({
@@ -44,7 +46,11 @@ export class Router {
         handler: {
           get: (target, prop) => {
             target = [
-              ...this.routes.map((route) => <Route path={route.path}>{route.render}</Route>),
+              ...this.routes.map((route) => (
+                <Route key={route.path} path={route.path}>
+                  {route.render}
+                </Route>
+              )),
               ...target,
             ]
 

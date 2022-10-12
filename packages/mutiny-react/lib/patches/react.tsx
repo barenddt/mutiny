@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FaMugHot } from "react-icons/fa"
 import { Patch } from "../patch"
 import React from "react"

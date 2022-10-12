@@ -50,16 +50,7 @@ export async function startService(config: ServiceConfig) {
     client.CDP.close()
   })
 
-  process.on("SIGINT", () => {
-    log("service stopped")
-
-    if (frame.CDP) {
-      log("closing frame connection...")
-      frame.CDP.close()
-    }
-
-    process.exit()
-  })
+  process.on("SIGINT", () => safeStop())
 
   process.stdin.on("keypress", function (_ch, key) {
     if (key && key.ctrl && key.name == "r") {
@@ -69,10 +60,21 @@ export async function startService(config: ServiceConfig) {
     }
 
     if (key && key.ctrl && key.name == "c") {
-      process.emit("SIGINT")
+      safeStop()
     }
   })
 
   process.stdin.setRawMode(true)
   process.stdin.resume()
+
+  function safeStop() {
+    log("service stopped")
+
+    if (frame.CDP) {
+      log("closing frame connection...")
+      frame.CDP.close()
+    }
+
+    process.exit()
+  }
 }

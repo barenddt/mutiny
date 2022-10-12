@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export * from "./loader"
 export * from "./patcher"
 export * from "./patch"

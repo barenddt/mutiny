@@ -147,4 +147,5 @@ export {
   findNode,
   findNodeAsync,
   findParentNode,
+  waitForNode,
 }

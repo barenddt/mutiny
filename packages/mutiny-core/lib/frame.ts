@@ -36,7 +36,7 @@ const defaultOptions: FrameClientOptions = {
 
 export class FrameClient extends EventEmitter {
   private intervalId: NodeJS.Timeout | null = null
-  private isConnected: boolean = false
+  private isConnected = false
   public CDP!: CDP.Client
   public frameInfo!: FrameInfo
 

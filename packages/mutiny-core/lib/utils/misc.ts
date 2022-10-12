@@ -1,7 +1,6 @@
-import Protocol from "devtools-protocol"
-
 import { FrameClientOptions } from "../frame"
 import { LogLevel } from "../types/core"
+import Protocol from "devtools-protocol"
 
 export function formatConsoleMessage(debug?: FrameClientOptions["logging"]) {
   return function (message: Protocol.Console.MessageAddedEvent) {

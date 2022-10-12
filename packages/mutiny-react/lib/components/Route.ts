@@ -11,7 +11,7 @@ interface RouteProps {
 
 export const Route: FC<RouteProps> = findModuleChild((m) => {
   if (typeof m !== "object") return undefined
-  for (let prop in m) {
+  for (const prop in m) {
     if (m[prop].toString().includes("{routePath:e.match.path}")) return m[prop]
   }
 }) as FC<RouteProps>

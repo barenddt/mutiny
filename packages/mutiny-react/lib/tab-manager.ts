@@ -2,6 +2,7 @@ import { Fiber } from "react-reconciler"
 import { ReactNode } from "react"
 import { isProxy } from "is-proxy"
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isTabs = (arr: any[]) =>
   arr.reduce((_, c) => {
     if (c.key && c.title && c.tab && c.panel) {

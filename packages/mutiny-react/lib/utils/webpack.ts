@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 declare global {
   interface Window {
     webpackJsonp: any
@@ -38,7 +39,7 @@ if (window.webpackJsonp && !window.webpackJsonp.deckyShimmed) {
       initReq = r
     },
   ])
-  for (let i of Object.keys(initReq.m)) {
+  for (const i of Object.keys(initReq.m)) {
     webpackCache[i] = initReq(i)
   }
 }
@@ -82,7 +83,7 @@ export const findAllModules = (filter: FilterFn) => {
 
 export const CommonUIModule = allModules.find((m: Module) => {
   if (typeof m !== "object") return false
-  for (let prop in m) {
+  for (const prop in m) {
     if (m[prop]?.contextType?._currentValue && Object.keys(m).length > 60) return true
   }
   return false
@@ -90,10 +91,10 @@ export const CommonUIModule = allModules.find((m: Module) => {
 
 export const IconsModule = findModule((m: Module) => {
   if (typeof m !== "object") return false
-  for (let prop in m) {
+  for (const prop in m) {
     if (
       m[prop]?.toString &&
-      /Spinner\)}\),.\.createElement\(\"path\",{d:\"M18 /.test(m[prop].toString())
+      /Spinner\)}\),.\.createElement\("path",{d:"M18 /.test(m[prop].toString())
     )
       return true
   }
@@ -102,7 +103,7 @@ export const IconsModule = findModule((m: Module) => {
 
 export const ReactRouter = allModules.find((m: Module) => {
   if (typeof m !== "object") return undefined
-  for (let prop in m) {
+  for (const prop in m) {
     if (m[prop]?.computeRootMatch) return true
   }
   return false
