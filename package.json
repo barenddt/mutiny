@@ -13,7 +13,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "start": "turbo run start",
     "changeset": "changeset",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "steam": "./scripts/launch_steam.sh"
   },
   "devDependencies": {
     "@changesets/cli": "^2.25.0",

@@ -1,0 +1,22 @@
+{
+  "name": "@mutiny/utils",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "tsup --dts",
+    "lint": "TIMING=1 eslint --ext .ts,.tsx lib"
+  },
+  "devDependencies": {
+    "@mutiny/tsconfig": "*",
+    "tsup": "^6.2.3"
+  },
+  "dependencies": {
+    "fp-ts": "^2.12.3"
+  }
+}

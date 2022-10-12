@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react"
 
-import { findModuleChild } from "../utils/webpack"
+import { findFunction } from "@mutiny/utils"
 
 interface RouteProps {
   path: string
@@ -9,9 +9,6 @@ interface RouteProps {
   children: ReactNode
 }
 
-export const Route: FC<RouteProps> = findModuleChild((m) => {
-  if (typeof m !== "object") return undefined
-  for (const prop in m) {
-    if (m[prop].toString().includes("{routePath:e.match.path}")) return m[prop]
-  }
-}) as FC<RouteProps>
+export const Route: FC<RouteProps> = findFunction((fn) =>
+  fn.toString()?.includes("{routePath:e.match.path}")
+)

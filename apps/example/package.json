@@ -5,12 +5,12 @@
   "license": "MIT",
   "scripts": {
     "dev": "mutiny dev",
-    "start": "mutiny start",
-    "build": "mutiny build"
+    "start": "mutiny start"
   },
   "devDependencies": {
     "@mutiny/core": "*",
-    "@mutiny/tsconfig": "*"
+    "@mutiny/tsconfig": "*",
+    "@mutiny/utils": "*"
   },
   "dependencies": {
     "@mutiny/react": "*"
