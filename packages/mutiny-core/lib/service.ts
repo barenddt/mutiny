@@ -1,8 +1,8 @@
-import { MUTINY_BUILD_DIR, loadMutinyConfig, logger } from "./utils"
+import { MUTINY_BUILD_DIR, logger } from "./utils"
 
 import { Frame } from "./types/core"
 import { FrameClient } from "./frame"
-import { buildApp } from "./build"
+import { build } from "./build"
 import fs from "fs-extra"
 import keypress from "keypress"
 import { default as nodeWatch } from "node-watch"
@@ -16,11 +16,9 @@ export type ServiceConfig = {
   watch: boolean
 }
 
-export async function startService(config: ServiceConfig) {
-  const mConfig = loadMutinyConfig()
+export async function startAppService(config: ServiceConfig) {
   const { watch } = config
-
-  await buildApp(mConfig, { watch })
+  await build({ scope: "app", watch })
 
   const frame = new FrameClient(Frame.SP)
 

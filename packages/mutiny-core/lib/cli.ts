@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
 import { Command } from "commander"
-import { buildApp } from "./build"
-import { loadMutinyConfig } from "./utils"
-import { startService } from "./service"
+import { build } from "./build"
+import { startAppService } from "./service"
 
 export const program = new Command()
 
@@ -12,14 +11,13 @@ program.name("mutiny").description("").version("0.0.0")
 program
   .command("build")
   .description("Builds the app")
-  .action(() => {
-    const config = loadMutinyConfig()
-    buildApp(config, { watch: false })
-  })
+  .option("-w, --watch", "Watch for changes")
+  .option("--scope <app | server>", "Build scope")
+  .action(build)
 
 program
   .command("dev")
   .description("Starts the app in development mode")
-  .action(() => startService({ watch: true }))
+  .action(() => startAppService({ watch: true }))
 
 program.parse()

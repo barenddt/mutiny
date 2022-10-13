@@ -1,4 +1,4 @@
-import { MUTINY_BUILD_DIR, MutinyConfig, loadDotEnv } from "./utils"
+import { BuildConfig, MUTINY_BUILD_DIR, MutinyConfig, loadDotEnv, loadMutinyConfig } from "./utils"
 import { Options, build as tsupBuild } from "tsup"
 
 import globals from "esbuild-plugin-globals"
@@ -6,23 +6,40 @@ import { logger } from "./utils/logger"
 import { default as nodeWatch } from "node-watch"
 import path from "path"
 
-const log = logger({ scope: "app:build", color: "green" })
-
-export type Opts = {
-  watch?: boolean
+export type RunBuildOpts = {
+  watch: boolean
+  scope?: keyof MutinyConfig
 }
 
-export async function buildApp(config: MutinyConfig, opts: Opts) {
-  const time = Date.now()
+export async function build(options: RunBuildOpts) {
+  const { watch, scope } = options
 
+  const mConfig = loadMutinyConfig()
   const env = loadDotEnv()
 
-  if (env) {
-    log("loaded .env file")
+  if (!scope || scope === "server") {
+    const serverConfig = createBuildServerConfig(mConfig, watch, env)
+
+    if (serverConfig) {
+      await runBuild(serverConfig)
+    }
   }
 
+  if (!scope || scope === "app") {
+    const appConfig = createBuildAppConfig(mConfig, watch, env)
+    await runBuild(appConfig)
+  }
+}
+
+export function createBuildAppConfig(
+  config: MutinyConfig,
+  watch: boolean,
+  env: Record<string, string> | null
+): BuildOptions {
+  const { app } = config
+
   const tsupConf: Options = {
-    entry: [config.appEntry],
+    entry: [app.entry],
     outDir: MUTINY_BUILD_DIR + "/app",
     format: ["iife"],
     clean: true,
@@ -36,29 +53,68 @@ export async function buildApp(config: MutinyConfig, opts: Opts) {
         "react-dom": "SP_REACTDOM",
       }),
     ],
-    env: env ?? {},
+    env: env || {},
   }
 
-  log(`building entry ${config.appEntry}`)
-  await tsupBuild(tsupConf)
+  return { scope: "app", config: app, tsupConf, watch }
+}
+
+export function createBuildServerConfig(
+  config: MutinyConfig,
+  watch: boolean,
+  env: Record<string, string> | null
+): BuildOptions | null {
+  const { server } = config
+
+  if (!server) return null
+
+  const tsupConf: Options = {
+    entry: [server.entry],
+    outDir: MUTINY_BUILD_DIR + "/server",
+    format: ["cjs", "esm"],
+    clean: true,
+    silent: true,
+    minify: true,
+    env: env || {},
+  }
+
+  return { scope: "server", config: server, tsupConf, watch }
+}
+
+export interface BuildOptions {
+  scope: keyof MutinyConfig
+  config: BuildConfig
+  tsupConf: Options
+  watch: boolean
+}
+
+export async function runBuild(options: BuildOptions) {
+  const { scope, config, tsupConf, watch } = options
+  const log = logger({ scope: `build:${scope}`, color: "green" })
+  const time = Date.now()
+
+  const env = loadDotEnv()
+
+  log(`building entry ${config.entry}`)
+  await tsupBuild({ ...tsupConf, env: env ?? {} })
   log(`build success in ${Date.now() - time}ms`)
 
-  if (opts.watch) {
+  if (watch) {
     if (!config.watchDirs?.length) {
       throw new Error("No watchDirs specified in mutiny.config.json")
     }
 
-    nodeWatch(config.watchDirs.map(makeWatchPath), { recursive: true }, async () => {
+    nodeWatch(makeWatchPaths(config.watchDirs), { recursive: true }, async () => {
       const time = Date.now()
-      log(`change detected, rebuilding entry ${config.appEntry}...`)
-      await tsupBuild(tsupConf)
-      log("build success in " + (Date.now() - time) + "ms")
+      log(`change detected, rebuilding entry ${config.entry}...`)
+      await tsupBuild({ ...tsupConf, env: env ?? {} })
+      log(`build success in ${Date.now() - time}ms`)
     })
 
     log("ready for changes...")
   }
 }
 
-export function makeWatchPath(watchDir: string) {
-  return path.join(process.cwd(), watchDir)
+export function makeWatchPaths(watchDirs: string[]): string[] {
+  return watchDirs.map((dir) => path.join(process.cwd(), dir))
 }
