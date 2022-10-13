@@ -1,16 +1,16 @@
 {
-  "name": "example",
+  "name": "basic-example",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "dev": "mutiny dev",
+    "build": "mutiny build",
     "start": "mutiny start"
   },
   "devDependencies": {
     "@mutiny/core": "*",
-    "@mutiny/tsconfig": "*",
-    "@mutiny/utils": "*"
+    "@mutiny/tsconfig": "*"
   },
   "dependencies": {
     "@mutiny/react": "*"

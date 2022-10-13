@@ -1,5 +1,3 @@
-import Mutiny from "@mutiny/react"
-
 const App = () => {
   return (
     <div
@@ -11,12 +9,9 @@ const App = () => {
         height: "100%",
       }}
     >
-      <h1>Example App</h1>
+      <h1>Basic Example</h1>
     </div>
   )
 }
 
-Mutiny.createRoute({
-  path: "/mutiny",
-  render: <App />,
-})
+export default App
