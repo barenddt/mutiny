@@ -1,10 +1,5 @@
 {
-  "app": {
-    "entry": "app/index.tsx",
-    "watchDir": "app"
-  },
-  "server": {
-    "entry": "server/index.ts",
-    "watchDir": "server"
-  }
+  "appEntry": "app/index.tsx",
+  "serverEntry": "server/index.ts",
+  "watchDirs": ["app", "server"]
 }

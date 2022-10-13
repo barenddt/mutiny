@@ -4,37 +4,17 @@ import { parse } from "dotenv"
 import path from "path"
 import { z } from "zod"
 
-export interface AppConfig {
-  entry: string
-  watchDir?: string
-}
-
-export interface ServerConfig {
-  entry: string
-  watchDir?: string
-}
-
 export interface MutinyConfig {
-  app: AppConfig
-  server?: ServerConfig
+  appEntry: string
+  serverEntry?: string
+  watchDirs?: string[]
 }
 
 export const MutinyConfigSchema = z.object({
-  app: z.object(
-    {
-      entry: z.string({ required_error: "app.entry is required" }),
-      watchDir: z.string({ invalid_type_error: "app.watchDir must be a string" }).optional(),
-    },
-    { required_error: "app is required" }
-  ),
-  server: z
-    .object(
-      {
-        entry: z.string({ required_error: "server.entry is required" }),
-        watchDir: z.string({ invalid_type_error: "server.watchDir must be a string" }).optional(),
-      },
-      { required_error: "server is required" }
-    )
+  appEntry: z.string({ required_error: "appEntry is required" }),
+  serverEntry: z.string().optional(),
+  watchDirs: z
+    .array(z.string({ invalid_type_error: "watchDirs must be an array of strings" }))
     .optional(),
 })
 

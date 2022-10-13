@@ -1,4 +1,4 @@
-import { AppConfig, MUTINY_BUILD_DIR, loadDotEnv } from "./utils"
+import { MUTINY_BUILD_DIR, MutinyConfig, loadDotEnv } from "./utils"
 import { Options, build as tsupBuild } from "tsup"
 
 import globals from "esbuild-plugin-globals"
@@ -12,7 +12,7 @@ export type Opts = {
   watch?: boolean
 }
 
-export async function buildApp(config: AppConfig, opts: Opts) {
+export async function buildApp(config: MutinyConfig, opts: Opts) {
   const time = Date.now()
 
   const env = loadDotEnv()
@@ -22,7 +22,7 @@ export async function buildApp(config: AppConfig, opts: Opts) {
   }
 
   const tsupConf: Options = {
-    entry: [config.entry],
+    entry: [config.appEntry],
     outDir: MUTINY_BUILD_DIR + "/app",
     format: ["iife"],
     clean: true,
@@ -39,22 +39,26 @@ export async function buildApp(config: AppConfig, opts: Opts) {
     env: env ?? {},
   }
 
-  log(`building entry ${config.entry}`)
+  log(`building entry ${config.appEntry}`)
   await tsupBuild(tsupConf)
   log(`build success in ${Date.now() - time}ms`)
 
   if (opts.watch) {
-    if (!config.watchDir) {
-      throw new Error("No watchDir specified in mutiny.config.json")
+    if (!config.watchDirs?.length) {
+      throw new Error("No watchDirs specified in mutiny.config.json")
     }
 
-    nodeWatch(path.join(process.cwd(), config.watchDir), { recursive: true }, async () => {
+    nodeWatch(config.watchDirs.map(makeWatchPath), { recursive: true }, async () => {
       const time = Date.now()
-      log(`change detected, rebuilding entry ${config.entry}...`)
+      log(`change detected, rebuilding entry ${config.appEntry}...`)
       await tsupBuild(tsupConf)
       log("build success in " + (Date.now() - time) + "ms")
     })
 
     log("ready for changes...")
   }
+}
+
+export function makeWatchPath(watchDir: string) {
+  return path.join(process.cwd(), watchDir)
 }

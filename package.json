@@ -13,12 +13,10 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "start": "turbo run start",
-    "changeset": "changeset",
     "commit": "git-cz",
     "steam": "./scripts/launch_steam.sh"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.25.0",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@mutiny/eslint-config": "*",

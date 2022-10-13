@@ -13,8 +13,8 @@ program
   .command("build")
   .description("Builds the app")
   .action(() => {
-    const { app } = loadMutinyConfig()
-    buildApp(app, { watch: false })
+    const config = loadMutinyConfig()
+    buildApp(config, { watch: false })
   })
 
 program

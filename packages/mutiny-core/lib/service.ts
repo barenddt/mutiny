@@ -17,10 +17,10 @@ export type ServiceConfig = {
 }
 
 export async function startService(config: ServiceConfig) {
-  const { app } = loadMutinyConfig()
+  const mConfig = loadMutinyConfig()
   const { watch } = config
 
-  await buildApp(app, { watch })
+  await buildApp(mConfig, { watch })
 
   const frame = new FrameClient(Frame.SP)
 
