@@ -13,7 +13,7 @@ export interface TRoute {
 
 export class Router {
   routerNode: Fiber | null = null
-  patcher: Patcher | null = null
+  patcher: Patcher = new Patcher()
   routes: TRoute[] = []
 
   constructor() {
@@ -22,16 +22,10 @@ export class Router {
     }
 
     window.__MUTINY_ROUTER__ = this
+    this.mount()
   }
 
   async mount() {
-    if (this.patcher) {
-      this.patcher.restoreAll()
-      this.patcher = null
-    }
-
-    this.patcher = new Patcher()
-
     this.routerNode = findNode(await getRootNode(), (f: Fiber) => f.type?.computeRootMatch)
 
     const childNode = this.routerNode
@@ -66,21 +60,14 @@ export class Router {
 
       this.forceUpdate()
     }
-
-    console.debug("Mounted")
   }
 
   unmount() {
-    if (this.patcher) {
-      this.patcher.restoreAll()
-    }
-    console.debug("Unmounted")
+    this.patcher.restoreAll()
   }
 
   addRoute(route: TRoute) {
     this.routes.push(route)
-
-    console.debug(`Added route ${route.path}`)
   }
 
   public forceUpdate() {
@@ -89,8 +76,8 @@ export class Router {
   }
 }
 
+const router = new Router()
+
 export function createRoute(path: string, render: ReactElement) {
-  const router = new Router()
   router.addRoute({ path, render })
-  router.mount()
 }

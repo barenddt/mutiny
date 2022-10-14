@@ -1,6 +1,6 @@
-import { Fiber } from "react-reconciler"
+import { Patch } from "./patch"
+import { Patcher } from "./patcher"
 import { ReactNode } from "react"
-import { isProxy } from "is-proxy"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isTabs = (arr: any[]) =>
@@ -19,18 +19,25 @@ export interface Tab {
   panel: ReactNode
 }
 
-export class TabManager {
-  root: Fiber
-  tabs: Tab[]
+export class QuickAccess {
+  tabs: Tab[] = []
+  patcher: Patcher = new Patcher()
 
-  constructor(root: Fiber, initialTabs?: Tab[]) {
-    this.root = root
-    this.tabs = initialTabs ?? []
+  constructor() {
+    if (window.__MUTINY_QUICK_ACCESS__) {
+      window.__MUTINY_QUICK_ACCESS__.unmount()
+    }
+
+    window.__MUTINY_QUICK_ACCESS__ = this
+    this.mount()
   }
 
   mount() {
-    if (!isProxy(Array.prototype.filter)) {
-      Array.prototype.filter = new Proxy(Array.prototype.filter, {
+    const patch = new Patch({
+      name: "quick-access",
+      target: Array.prototype,
+      property: "filter",
+      handler: {
         apply: (target, thisArg, args) => {
           let result: Tab[] = Reflect.apply(target, thisArg, args)
 
@@ -40,33 +47,28 @@ export class TabManager {
 
           return result
         },
-      })
-    }
+      },
+    })
 
-    console.debug("Mounted")
-
-    return this
+    this.patcher.addPatch(patch)
   }
 
   unmount() {
-    console.debug("Unmounted")
-
-    return this
+    this.patcher.restoreAll()
   }
 
-  addTab(tab: Tab): Tab {
+  addTab(tab: Tab) {
     const cTab = {
       ...tab,
       key: this.tabs.length + 1,
     }
 
     this.tabs.push(cTab)
-
-    console.debug("added new tab")
-    return cTab
   }
+}
 
-  removeTab(): void {
-    console.debug("removing tab")
-  }
+const quickAccess = new QuickAccess()
+
+export function createQuickAccessTab(tab: Tab) {
+  quickAccess.addTab(tab)
 }
