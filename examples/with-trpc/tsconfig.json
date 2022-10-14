@@ -1,0 +1,4 @@
+{
+  "extends": "@mutiny/tsconfig/mutiny-react.json",
+  "include": ["app", "server"]
+}
