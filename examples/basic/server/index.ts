@@ -11,9 +11,9 @@ const server = http.createServer((req, res) => {
     res.writeHead(200, { "Content-Type": "application/json" })
     res.end(
       JSON.stringify({
-        platform: os.platform(),
+        type: os.type(),
+        arch: os.arch(),
         release: os.release(),
-        version: os.version(),
       })
     )
   }
