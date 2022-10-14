@@ -2,7 +2,7 @@
 
 import { Command } from "commander"
 import { build } from "./build"
-import { startAppService } from "./service"
+import { startDevService } from "./service"
 
 export const program = new Command()
 
@@ -18,6 +18,8 @@ program
 program
   .command("dev")
   .description("Starts the app in development mode")
-  .action(() => startAppService({ watch: true }))
+  .option("-w, --watch", "Watch for changes")
+  .option("--scope <app | server>", "Development scope")
+  .action(startDevService)
 
 program.parse()

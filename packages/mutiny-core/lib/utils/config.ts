@@ -1,4 +1,5 @@
 import { MUTINY_CONFIG_FILE } from "./constants"
+import { ProcessEnvOptions } from "child_process"
 import fs from "fs-extra"
 import { parse } from "dotenv"
 import path from "path"
@@ -55,11 +56,11 @@ export function loadMutinyConfig(): MutinyConfig {
   return result.data
 }
 
-export function loadDotEnv(): Record<string, string> | null {
+export function loadDotEnv(): ProcessEnvOptions["env"] | undefined {
   const envPath = path.resolve(process.cwd(), ".env")
 
   if (!fs.existsSync(envPath)) {
-    return null
+    return undefined
   }
 
   const env = parse(fs.readFileSync(envPath, "utf-8"))

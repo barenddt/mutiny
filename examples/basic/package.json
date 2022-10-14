@@ -13,6 +13,7 @@
     "@mutiny/tsconfig": "*"
   },
   "dependencies": {
-    "@mutiny/react": "*"
+    "@mutiny/react": "*",
+    "react": "^18.2.0"
   }
 }
