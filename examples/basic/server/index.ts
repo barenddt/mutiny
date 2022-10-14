@@ -1,10 +1,11 @@
 import http from "http"
 import os from "os"
 
-const { PORT } = process.env
+const { PORT, HOST } = process.env
 
 const server = http.createServer((req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*")
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE")
 
   if (req.url === "/os-info") {
     res.writeHead(200, { "Content-Type": "application/json" })
@@ -19,5 +20,5 @@ const server = http.createServer((req, res) => {
 })
 
 server.listen(PORT, () => {
-  console.log(`🚀 Server ready at http://localhost:${PORT}`)
+  console.log(`🚀 Server ready at http://${HOST}:${PORT}`)
 })

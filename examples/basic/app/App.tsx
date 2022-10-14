@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react"
 
+const { HOST, PORT } = process.env
+
 const App = () => {
   const [data, setData] = useState({})
 
   useEffect(() => {
-    fetch("http://127.0.0.1:3325/os-info")
+    fetch(`http://${HOST}:${PORT}/os-info`)
       .then((res) => res.json())
       .then((data) => setData(data))
   }, [])
@@ -23,7 +25,6 @@ const App = () => {
       <code
         style={{
           whiteSpace: "pre-wrap",
-          fontSize: 12,
           padding: 5,
           backgroundColor: "black",
           borderRadius: 5,
