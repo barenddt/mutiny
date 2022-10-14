@@ -140,6 +140,19 @@ const waitForNode = (fibre: Fiber, filter: (fibre: Fiber) => boolean): Promise<F
   })
 }
 
+async function getRootNode(): Promise<Fiber> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  while (!(document.getElementById("root") as any)._reactRootContainer?._internalRoot?.current) {
+    await new Promise((resolve) => setTimeout(resolve, 100))
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const rootNode = (document.getElementById("root") as any)._reactRootContainer._internalRoot
+    .current as Fiber
+
+  return rootNode
+}
+
 export {
   findFiberNodeById,
   findFiberNodeByClass,
@@ -148,4 +161,5 @@ export {
   findNodeAsync,
   findParentNode,
   waitForNode,
+  getRootNode,
 }

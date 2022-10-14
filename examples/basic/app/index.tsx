@@ -1,7 +1,4 @@
 import App from "./App"
-import Mutiny from "@mutiny/react"
+import { createRoute } from "@mutiny/react"
 
-Mutiny.createRoute({
-  path: "/mutiny",
-  render: <App />,
-})
+createRoute("/mutiny", <App />)

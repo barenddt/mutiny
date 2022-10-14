@@ -1,4 +1,4 @@
-import { findNode, findNodeAsync } from "./utils/fiber"
+import { findNode, findNodeAsync, getRootNode } from "./utils/fiber"
 
 import { Fiber } from "react-reconciler"
 import { Patch } from "./patch"
@@ -6,19 +6,22 @@ import { Patcher } from "./patcher"
 import { ReactElement } from "react"
 import { Route } from "./components"
 
-export interface Route {
+export interface TRoute {
   path: string
   render: ReactElement
 }
 
 export class Router {
-  root: Fiber
   routerNode: Fiber | null = null
   patcher: Patcher | null = null
-  routes: Route[] = []
+  routes: TRoute[] = []
 
-  constructor(root: Fiber) {
-    this.root = root
+  constructor() {
+    if (window.__MUTINY_ROUTER__) {
+      window.__MUTINY_ROUTER__.unmount()
+    }
+
+    window.__MUTINY_ROUTER__ = this
   }
 
   async mount() {
@@ -29,7 +32,7 @@ export class Router {
 
     this.patcher = new Patcher()
 
-    this.routerNode = findNode(this.root, (f: Fiber) => f.type?.computeRootMatch)
+    this.routerNode = findNode(await getRootNode(), (f: Fiber) => f.type?.computeRootMatch)
 
     const childNode = this.routerNode
       ? await findNodeAsync(
@@ -40,7 +43,7 @@ export class Router {
 
     if (childNode) {
       const routePatch = new Patch({
-        name: "add-homebrew-route",
+        name: "add-routes",
         target: childNode.memoizedProps,
         property: "children",
         handler: {
@@ -70,14 +73,11 @@ export class Router {
   unmount() {
     if (this.patcher) {
       this.patcher.restoreAll()
-      this.patcher = null
     }
-
-    this.routerNode = null
     console.debug("Unmounted")
   }
 
-  addRoute(route: Route) {
+  addRoute(route: TRoute) {
     this.routes.push(route)
 
     console.debug(`Added route ${route.path}`)
@@ -87,4 +87,10 @@ export class Router {
     if (!this.routerNode) return console.debug("Router not mounted")
     this.routerNode.stateNode.forceUpdate()
   }
+}
+
+export function createRoute(path: string, render: ReactElement) {
+  const router = new Router()
+  router.addRoute({ path, render })
+  router.mount()
 }

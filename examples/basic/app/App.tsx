@@ -4,7 +4,7 @@ const App = () => {
   const [data, setData] = useState({})
 
   useEffect(() => {
-    fetch("http://127.0.0.1:3325/ping")
+    fetch("http://127.0.0.1:3325/os-info")
       .then((res) => res.json())
       .then((data) => setData(data))
   }, [])
@@ -20,7 +20,17 @@ const App = () => {
       }}
     >
       <h1>Basic Example</h1>
-      {JSON.stringify(data)}
+      <code
+        style={{
+          whiteSpace: "pre-wrap",
+          fontSize: 12,
+          padding: 5,
+          backgroundColor: "black",
+          borderRadius: 5,
+        }}
+      >
+        {JSON.stringify(data, null, 2)}
+      </code>
     </div>
   )
 }

@@ -2,11 +2,12 @@
 
 import { Command } from "commander"
 import { build } from "./build"
+import pkg from "../package.json"
 import { startDevService } from "./service"
 
 export const program = new Command()
 
-program.name("mutiny").description("").version("0.0.0")
+program.name("mutiny").version(pkg.version)
 
 program
   .command("build")

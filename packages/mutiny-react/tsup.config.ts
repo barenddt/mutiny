@@ -5,5 +5,4 @@ export default defineConfig({
   outDir: "dist",
   format: ["cjs", "esm"],
   external: ["react", "react-dom"],
-  clean: true,
 })

@@ -1,14 +1,20 @@
 import http from "http"
+import os from "os"
 
 const { PORT } = process.env
-// Allow cors
+
 const server = http.createServer((req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*")
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE")
 
-  if (req.url === "/ping") {
+  if (req.url === "/os-info") {
     res.writeHead(200, { "Content-Type": "application/json" })
-    res.end(JSON.stringify({ message: "pong" }))
+    res.end(
+      JSON.stringify({
+        platform: os.platform(),
+        release: os.release(),
+        version: os.version(),
+      })
+    )
   }
 })
 

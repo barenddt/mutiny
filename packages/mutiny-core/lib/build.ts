@@ -33,6 +33,7 @@ export async function build(options: RunBuildOpts) {
 
 export async function buildServer(config: BuildConfig, watch: boolean) {
   const log = logger({ scope: "build:server", color: "green" })
+
   const time = Date.now()
 
   const tsupConf: Options = {
@@ -65,8 +66,9 @@ export async function buildServer(config: BuildConfig, watch: boolean) {
 }
 
 export async function buildApp(config: BuildConfig, watch: boolean) {
-  const env = loadDotEnv()
   const log = logger({ scope: "build:app", color: "green" })
+
+  const env = loadDotEnv()
   const time = Date.now()
 
   log(`building ${config.entry}`)
