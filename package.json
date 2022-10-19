@@ -21,8 +21,9 @@
     "@commitlint/config-conventional": "^17.1.0",
     "@mutiny/eslint-config": "*",
     "cz-conventional-changelog": "^3.3.0",
-    "prettier": "latest",
-    "turbo": "latest"
+    "prettier": "^2.0.0",
+    "turbo": "latest",
+    "typescript": "^4.8.4"
   },
   "engines": {
     "node": ">=14.0.0"

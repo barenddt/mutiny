@@ -1,4 +1,4 @@
-import { Patch } from "./patch"
+import { Patch } from "./Patch"
 
 export class Patcher {
   public patches: Set<Patch>

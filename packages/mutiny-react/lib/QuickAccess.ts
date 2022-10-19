@@ -1,5 +1,5 @@
-import { Patch } from "./patch"
-import { Patcher } from "./patcher"
+import { Patch } from "./Patch"
+import { Patcher } from "./Patcher"
 import { ReactNode } from "react"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,11 +19,12 @@ export interface Tab {
   panel: ReactNode
 }
 
-export class QuickAccess {
+export class QuickAccess extends Patcher {
   tabs: Tab[] = []
-  patcher: Patcher = new Patcher()
 
   constructor() {
+    super()
+
     if (window.__MUTINY_QUICK_ACCESS__) {
       window.__MUTINY_QUICK_ACCESS__.unmount()
     }
@@ -50,11 +51,11 @@ export class QuickAccess {
       },
     })
 
-    this.patcher.addPatch(patch)
+    this.addPatch(patch)
   }
 
   unmount() {
-    this.patcher.restoreAll()
+    this.restoreAll()
   }
 
   addTab(tab: Tab) {

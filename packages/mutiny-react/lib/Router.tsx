@@ -1,22 +1,23 @@
 import { findNode, findNodeAsync, getRootNode } from "./utils/fiber"
 
 import { Fiber } from "react-reconciler"
-import { Patch } from "./patch"
-import { Patcher } from "./patcher"
+import { Patch } from "./Patch"
+import { Patcher } from "./Patcher"
 import { ReactElement } from "react"
-import { Route } from "./components"
+import { Route } from "./extracted"
 
 export interface TRoute {
   path: string
   render: ReactElement
 }
 
-export class Router {
+export class Router extends Patcher {
   routerNode: Fiber | null = null
-  patcher: Patcher = new Patcher()
   routes: TRoute[] = []
 
   constructor() {
+    super()
+
     if (window.__MUTINY_ROUTER__) {
       window.__MUTINY_ROUTER__.unmount()
     }
@@ -26,12 +27,13 @@ export class Router {
   }
 
   async mount() {
-    this.routerNode = findNode(await getRootNode(), (f: Fiber) => f.type?.computeRootMatch)
+    const rootNode = await getRootNode()
+    this.routerNode = findNode(rootNode, (f: Fiber) => f.type?.computeRootMatch)
 
     const childNode = this.routerNode
       ? await findNodeAsync(
           this.routerNode,
-          (f: Fiber) => f.memoizedProps?.children?.length === 24 + (this.patcher?.patches.size ?? 0)
+          (f: Fiber) => f.memoizedProps?.children?.length === 24 + (this.patches.size ?? 0)
         )
       : null
 
@@ -56,14 +58,14 @@ export class Router {
         },
       })
 
-      this.patcher.addPatch(routePatch)
+      this.addPatch(routePatch)
 
       this.forceUpdate()
     }
   }
 
   unmount() {
-    this.patcher.restoreAll()
+    this.restoreAll()
   }
 
   addRoute(route: TRoute) {
@@ -71,7 +73,7 @@ export class Router {
   }
 
   public forceUpdate() {
-    if (!this.routerNode) return console.debug("Router not mounted")
+    if (!this.routerNode) return
     this.routerNode.stateNode.forceUpdate()
   }
 }

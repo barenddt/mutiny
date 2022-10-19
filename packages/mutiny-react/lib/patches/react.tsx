@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FaMugHot } from "react-icons/fa"
-import { Patch } from "../patch"
+import { Patch } from "../Patch"
 import React from "react"
 
 export const arrayInsertAfter = (array: any[], index: number, item: any) => {

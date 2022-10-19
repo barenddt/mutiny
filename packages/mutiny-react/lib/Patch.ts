@@ -23,25 +23,13 @@ export class Patch {
   }
 
   apply() {
-    if (isProxy(this.target[this.property])) {
-      console.debug(`Target ${this.name} is already a proxy, skipping`)
-      return
-    }
+    if (isProxy(this.target[this.property])) return
 
     this.original = this.target[this.property]
-
     this.target[this.property] = new Proxy(this.target[this.property], this.handler)
-
-    console.debug(`Applied patch ${this.name}`)
-
-    return this
   }
 
   revert() {
     this.target[this.property] = this.original
-
-    console.debug(`Reverted patch ${this.name}`)
-
-    return this
   }
 }

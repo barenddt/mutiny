@@ -14,6 +14,7 @@ const server = http.createServer((req, res) => {
         type: os.type(),
         arch: os.arch(),
         release: os.release(),
+        platform: os.platform(),
       })
     )
   }

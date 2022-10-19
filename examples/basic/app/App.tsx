@@ -21,7 +21,7 @@ const App = () => {
         height: "100%",
       }}
     >
-      <h1>Basic Example</h1>
+      <h1>Basic Example 2</h1>
       <code
         style={{
           whiteSpace: "pre-wrap",

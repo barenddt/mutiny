@@ -1,3 +1,3 @@
-export * from "./router"
-export * from "./quick-access"
-export * from "./components"
+export * from "./Router"
+export * from "./QuickAccess"
+export * from "./extracted"

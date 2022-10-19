@@ -7,6 +7,7 @@ declare global {
   }
 }
 
+// Credits to https://github.com/SteamDeckHomebrew for the webpack hack
 if (!window.mWebpackCache) {
   window.mWebpackCache = {}
 
