@@ -18,7 +18,6 @@ const appRouter = t.router({
   osInfo: t.procedure.query(() => {
     return {
       type: os.type(),
-      arch: os.arch(),
       release: os.release(),
     }
   }),
