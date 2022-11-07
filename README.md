@@ -6,7 +6,7 @@
 
 Mutiny aims to provide developers with an easy to use experience similar to `create-react-app`, but for developing standalone extensions/addons for Valve's Steam Deck. Mutiny simplifies the process by providing high level abstractions that can be used to inject custom **React** code into the decks user interface.
 
-## Features
+### Features
 
 - 🔥 Hot reloading
 - 💻 Server support for calling OS commands
@@ -14,7 +14,7 @@ Mutiny aims to provide developers with an easy to use experience similar to `cre
 - 🪝 Hooks for the Steam Deck's MobX stores (coming soon)
 - 📦 Packager for creating one-click installers (coming soon)
 
-# Getting started (WIP)
+## Getting started (WIP)
 
 > ⚠️ **mutiny** is still under active development and is not ready for production.
 
@@ -31,7 +31,7 @@ cd my-app
 yarn dev
 ```
 
-# Develop
+## Develop
 
 Clone the repository:
 
