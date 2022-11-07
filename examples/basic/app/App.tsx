@@ -10,6 +10,11 @@ const App = () => {
       }}
     >
       <h1>Basic Example</h1>
+      <img
+        style={{ width: "50%" }}
+        src="https://media.tenor.com/_4YgA77ExHEAAAAd/rick-roll.gif"
+        alt="rick roll"
+      />
     </div>
   )
 }
